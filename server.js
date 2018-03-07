@@ -70,6 +70,7 @@ app.put('/update', bodyParser, (req, res) => {
       losses,
       levels
     ])
+    .then(res.sendStatus(200))
     .then(console.log('Update Complete'))
     .catch(console.error);
 });
