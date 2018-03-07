@@ -21,12 +21,14 @@ app.use(cors());
 // app.get('/', (req, res) => res.send('Testing 1, 2, 3'));
 
 app.get('/fetchLast', (req, res) => {
-  client,query(`SELECT * FROM pokemon ORDER BY mon_id DESC LIMIT 1;`)
+  console.log('in fetch last');
+  client.query(`SELECT * FROM pokemon ORDER BY mon_id DESC LIMIT 1;`)
     .then(results => res.send(results.rows))
     .catch(console.log);
 });
 
-app.post('/mons', bodyParser, (request, response) => {
+app.post('/mon', bodyParser, (request, response) => {
+  console.log('in post');
   client.query(`INSERT INTO pokemon(user_id, mon_nick, mon_name, image_url, wins, losses, levels, hp_stat, atk_stat, def_stat, satk_stat, sdef_stat, speed_stat) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
     [
       request.body.user_id,
@@ -43,7 +45,7 @@ app.post('/mons', bodyParser, (request, response) => {
       request.body.sdef_stat,
       request.body.speed_stat,
     ])
-    .then(() => response.send('Update Complete'))
+    .then(console.log('Update Complete'))
     .catch(console.error);
 });
 app.post('/:user', (req, res) => {
