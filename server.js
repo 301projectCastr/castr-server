@@ -20,7 +20,6 @@ app.use(cors());
 // API Endpoints
 app.get('/', (req, res) => res.send('Testing 1, 2, 3'));
 
-<<<<<<< HEAD
 app.post('/mons', bodyParser, (request, response) => {
   client.query(`INSERT INTO pokemon(user_id, mon_nick, mon_name, image_url, wins, losses, levels, hp_stat, atk_stat, def_stat, satk_stat, sdef_stat, speed_stat) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
     [
@@ -40,7 +39,7 @@ app.post('/mons', bodyParser, (request, response) => {
     ])
     .then(() => response.send('Update Complete'))
     .catch(console.error);
-=======
+
 app.post('/:user', (req, res) => {
   client.query (
     `INSERT INTO users (user_name)
@@ -48,7 +47,6 @@ app.post('/:user', (req, res) => {
     [req.params.user]
   )
     .then(() => res.send(console.log('user added to db')));
->>>>>>> 9028a2a4da598573e6add7d6a3b78817058c578a
 });
 
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
