@@ -47,9 +47,25 @@ app.post('/mon', bodyParser, (request, response) => {
       request.body.sdef_stat,
       request.body.speed_stat,
     ])
+    .then(console.log('post Complete'))
+    .catch(console.error);
+});
+
+app.put('/update', bodyParser, (req, res) => {
+  console.log('in insert');
+  let {mon_id, mon_nick, wins, losses, levels} = req.body;
+  client.query(`UPDATE pokemon SET mon_nick=$2, wins=$3, losses=$4, levels=$5 WHERE mon_id=$1`,
+    [
+      mon_id,
+      mon_nick,
+      wins,
+      losses,
+      levels
+    ])
     .then(console.log('Update Complete'))
     .catch(console.error);
 });
+
 app.post('/:user', (req, res) => {
   client.query (
     `INSERT INTO users (user_name)
