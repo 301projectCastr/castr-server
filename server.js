@@ -8,6 +8,7 @@ const bodyParser = require('body-parser').urlencoded({extended: true});
 const app = express();
 const PORT = process.env.PORT;
 const CLIENT_URL = process.env.CLIENT_URL;
+// const DATABASE_URL = 'postgres://localhost:5432/castr';
 
 // Database Setup
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -19,6 +20,13 @@ app.use(cors());
 
 // API Endpoints
 // app.get('/', (req, res) => res.send('Testing 1, 2, 3'));
+
+app.get('/api/v1/mon/:user', (req,res) => {
+  console.log(req.params.user);
+  client.query(`SELECT * FROM pokemon WHERE user_name=$1;`, [req.params.user])
+    .then(results => res.send(results.rows))
+    .catch(console.error);
+});
 
 app.get('/fetchLast', (req, res) => {
   console.log('in fetch last');
