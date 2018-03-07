@@ -24,7 +24,7 @@ app.get('/', (req, res) => res.send('Testing 1, 2, 3'));
 app.post('/:user', (req, res) => {
   client.query (
     `INSERT INTO users (user_name)
-    VALUES ($1);`,
+    VALUES ($1) ON CONFLICT DO NOTHING;`,
     [req.params.user]
   )
     .then(() => res.send(console.log('user added to db')));
