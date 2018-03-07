@@ -8,6 +8,7 @@ const bodyParser = require('body-parser').urlencoded({extended: true});
 const app = express();
 const PORT = process.env.PORT;
 const CLIENT_URL = process.env.CLIENT_URL;
+// const DATABASE_URL = 'postgres://localhost:5432/castr';
 
 // Database Setup
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -20,6 +21,13 @@ app.use(cors());
 // API Endpoints
 // app.get('/', (req, res) => res.send('Testing 1, 2, 3'));
 
+app.get('/api/v1/mon/:user', (req,res) => {
+  console.log(req.params.user);
+  client.query(`SELECT * FROM pokemon WHERE user_name=$1;`, [req.params.user])
+    .then(results => res.send(results.rows))
+    .catch(console.error);
+});
+
 app.get('/fetchLast', (req, res) => {
   console.log('in fetch last');
   client.query(`SELECT * FROM pokemon ORDER BY mon_id DESC LIMIT 1;`)
@@ -29,9 +37,9 @@ app.get('/fetchLast', (req, res) => {
 
 app.post('/mon', bodyParser, (request, response) => {
   console.log('in post');
-  client.query(`INSERT INTO pokemon(user_id, mon_nick, mon_name, image_url, wins, losses, levels, hp_stat, atk_stat, def_stat, satk_stat, sdef_stat, speed_stat) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
+  client.query(`INSERT INTO pokemon(user_name, mon_nick, mon_name, image_url, wins, losses, levels, hp_stat, atk_stat, def_stat, satk_stat, sdef_stat, speed_stat) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
     [
-      request.body.user_id,
+      request.body.user_name,
       request.body.mon_nick,
       request.body.mon_name,
       request.body.image_url,
