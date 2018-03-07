@@ -22,8 +22,8 @@ app.get('/', (req, res) => res.send('Testing 1, 2, 3'));
 
 app.get('/fetchLast', (req, res) => {
   client,query(`SELECT * FROM pokemon ORDER BY mon_id DESC LIMIT 1;`)
-  .then(results => res.send(results.rows))
-  .catch(console.log);
+    .then(results => res.send(results.rows))
+    .catch(console.log);
 });
 
 app.post('/mons', bodyParser, (request, response) => {
@@ -45,7 +45,7 @@ app.post('/mons', bodyParser, (request, response) => {
     ])
     .then(() => response.send('Update Complete'))
     .catch(console.error);
-
+});
 app.post('/:user', (req, res) => {
   client.query (
     `INSERT INTO users (user_name)
