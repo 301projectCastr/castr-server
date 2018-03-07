@@ -39,6 +39,14 @@ app.post('/mons', bodyParser, (request, response) => {
     ])
     .then(() => response.send('Update Complete'))
     .catch(console.error);
+
+app.post('/:user', (req, res) => {
+  client.query (
+    `INSERT INTO users (user_name)
+    VALUES ($1);`,
+    [req.params.user]
+  )
+    .then(() => res.send(console.log('user added to db')));
 });
 
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
