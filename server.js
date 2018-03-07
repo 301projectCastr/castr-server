@@ -19,7 +19,7 @@ client.on('error', err => console.error(err));
 app.use(cors());
 
 // API Endpoints
-app.get('/', (req, res) => res.send('Testing 1, 2, 3'));
+// app.get('/', (req, res) => res.send('Testing 1, 2, 3'));
 
 app.post('/:user', (req, res) => {
   client.query (
