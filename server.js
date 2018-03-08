@@ -33,10 +33,9 @@ app.get('/fetchLast', (req, res) => {
     .catch(console.log);
 });
 
-app.get('/api/v1/mon/:monid', (req, res) => {
-  console.log('in fetch one');
-  client.query(`SELECT * FROM pokemon WHERE mon_id=$1`, [req.params.monid])
-    .then(results => res.send(results.rows[0]))
+app.delete('/api/v1/mon/delete/:monid', (req, res) => {
+  client.query(`DELETE FROM pokemon WHERE mon_id=$1`, [req.params.monid])
+    .then(() => res.sendStatus(204))
     .catch(console.error);
 });
 
