@@ -77,7 +77,7 @@ app.put('/update', bodyParser, (req, res) => {
 
 app.post('/:user', (req, res) => {
   client.query (
-    `INSERT INTO users (user_name)
+    `INSERT INTO users (name)
     VALUES ($1) ON CONFLICT DO NOTHING;`,
     [req.params.user]
   )
