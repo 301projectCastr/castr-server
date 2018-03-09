@@ -58,14 +58,20 @@ app.post('/mon', bodyParser, (request, response) => {
 });
 
 app.put('/update', bodyParser, (req, res) => {
-  let {mon_id, mon_nick, wins, losses, levels} = req.body;
-  client.query(`UPDATE pokemon SET mon_nick=$2, wins=$3, losses=$4, levels=$5 WHERE mon_id=$1`,
+  let {mon_id, mon_nick, wins, losses, levels, hp_stat, atk_stat, def_stat, satk_stat,sdef_stat, speed_stat} = req.body;
+  client.query(`UPDATE pokemon SET mon_nick=$2, wins=$3, losses=$4, levels=$5, hp_stat=$6,atk_stat=$7, def_stat=$8, satk_stat=$9, sdef_stat=$10, speed_stat=$11 WHERE mon_id=$1`,
     [
       mon_id,
       mon_nick,
       wins,
       losses,
-      levels
+      levels,
+      hp_stat,
+      atk_stat,
+      def_stat,
+      satk_stat,
+      sdef_stat,
+      speed_stat
     ])
     .then(res.sendStatus(200))
     .then(console.log('Update Complete'))
