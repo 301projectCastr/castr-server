@@ -8,7 +8,6 @@ const bodyParser = require('body-parser').urlencoded({extended: true});
 const app = express();
 const PORT = process.env.PORT;
 const CLIENT_URL = process.env.CLIENT_URL;
-// const DATABASE_URL = 'postgres://localhost:5432/castr';
 
 // Database Setup
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -17,9 +16,6 @@ client.on('error', err => console.error(err));
 
 // Application Middleware
 app.use(cors());
-
-// API Endpoints
-// app.get('/', (req, res) => res.send('Testing 1, 2, 3'));
 
 app.get('/api/v1/mon/:user', (req,res) => {
   client.query(`SELECT * FROM pokemon WHERE user_name=$1;`, [req.params.user])
@@ -82,7 +78,8 @@ app.post('/:user', (req, res) => {
     VALUES ($1) ON CONFLICT DO NOTHING;`,
     [req.params.user]
   )
-    .then(() => res.send(console.log('user added to db')));
+    .then(() => res.send(console.log('user added to db')))
+    .catch(console.error);
 });
 
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
