@@ -22,21 +22,24 @@ app.use(cors());
 // app.get('/', (req, res) => res.send('Testing 1, 2, 3'));
 
 app.get('/api/v1/mon/:user', (req,res) => {
-  console.log(req.params.user);
   client.query(`SELECT * FROM pokemon WHERE user_name=$1;`, [req.params.user])
     .then(results => res.send(results.rows))
     .catch(console.error);
 });
 
 app.get('/fetchLast', (req, res) => {
-  console.log('in fetch last');
   client.query(`SELECT * FROM pokemon ORDER BY mon_id DESC LIMIT 1;`)
     .then(results => res.send(results.rows[0]))
     .catch(console.log);
 });
 
+app.delete('/api/v1/mon/delete/:monid', (req, res) => {
+  client.query(`DELETE FROM pokemon WHERE mon_id=$1`, [req.params.monid])
+    .then(() => res.sendStatus(204))
+    .catch(console.error);
+});
+
 app.post('/mon', bodyParser, (request, response) => {
-  console.log('in post');
   client.query(`INSERT INTO pokemon(user_name, mon_nick, mon_name, image_url, type_one, type_two, wins, losses, levels, hp_stat, atk_stat, def_stat, satk_stat, sdef_stat, speed_stat) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`,
     [
       request.body.user_name,
@@ -55,12 +58,10 @@ app.post('/mon', bodyParser, (request, response) => {
       request.body.sdef_stat,
       request.body.speed_stat,
     ])
-    .then(console.log('post Complete'))
     .catch(console.error);
 });
 
 app.put('/update', bodyParser, (req, res) => {
-  console.log('in insert');
   let {mon_id, mon_nick, wins, losses, levels} = req.body;
   client.query(`UPDATE pokemon SET mon_nick=$2, wins=$3, losses=$4, levels=$5 WHERE mon_id=$1`,
     [
@@ -77,11 +78,12 @@ app.put('/update', bodyParser, (req, res) => {
 
 app.post('/:user', (req, res) => {
   client.query (
-    `INSERT INTO users (user_name)
+    `INSERT INTO users (name)
     VALUES ($1) ON CONFLICT DO NOTHING;`,
     [req.params.user]
   )
-    .then(() => res.send(console.log('user added to db')));
+    .then(() => res.send(console.log('user added to db')))
+    .catch(console.error);
 });
 
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
