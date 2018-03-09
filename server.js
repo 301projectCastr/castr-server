@@ -54,6 +54,7 @@ app.post('/mon', bodyParser, (request, response) => {
       request.body.sdef_stat,
       request.body.speed_stat,
     ])
+    .then(response.sendStatus(200))
     .catch(console.error);
 });
 
