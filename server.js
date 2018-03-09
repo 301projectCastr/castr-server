@@ -82,7 +82,8 @@ app.post('/:user', (req, res) => {
     VALUES ($1) ON CONFLICT DO NOTHING;`,
     [req.params.user]
   )
-    .then(() => res.send(console.log('user added to db')));
+    .then(() => res.send(console.log('user added to db')))
+    .catch(console.error);
 });
 
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
