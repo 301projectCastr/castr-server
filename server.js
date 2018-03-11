@@ -17,6 +17,8 @@ client.on('error', err => console.error(err));
 // Application Middleware
 app.use(cors());
 
+// API Endpoints
+
 app.get('/api/v1/mon/:user', (req,res) => {
   client.query(`SELECT * FROM pokemon WHERE user_name=$1;`, [req.params.user])
     .then(results => res.send(results.rows))
