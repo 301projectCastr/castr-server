@@ -1,4 +1,5 @@
-# castr-server
+# Pokemon Fight Club 
+## http://pokemonfight.club/ 
 
 ## Overview
 This app is a fun Pokemon game, created as a final project for the Code Fellows Code301 course.
