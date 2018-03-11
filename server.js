@@ -8,7 +8,6 @@ const bodyParser = require('body-parser').urlencoded({extended: true});
 const app = express();
 const PORT = process.env.PORT;
 const CLIENT_URL = process.env.CLIENT_URL;
-// const DATABASE_URL = 'postgres://localhost:5432/castr';
 
 // Database Setup
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -57,6 +56,7 @@ app.post('/mon', bodyParser, (request, response) => {
       request.body.sdef_stat,
       request.body.speed_stat,
     ])
+    .then(response.sendStatus(200))
     .catch(console.error);
 });
 
@@ -87,7 +87,8 @@ app.post('/:user', (req, res) => {
     VALUES ($1) ON CONFLICT DO NOTHING;`,
     [req.params.user]
   )
-    .then(() => res.send(console.log('user added to db')));
+    .then(() => res.send(console.log('user added to db')))
+    .catch(console.error);
 });
 
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
